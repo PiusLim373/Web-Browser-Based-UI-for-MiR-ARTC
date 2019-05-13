@@ -1,0 +1,320 @@
+<html>
+<head>
+	<title>MIR200 Control Panel</title>
+	<link rel="icon" href="static/img/astar.png">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+    <link rel="stylesheet" href="static/css/bootstrap.css">
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/animate.css">
+    <link rel="stylesheet" href="static/css/font-awesome.min.css">
+		<link rel="stylesheet" href="static/css/general.css">
+		<script src="static/script/popper.min.js"></script>
+		<script src="static/script/jquery.min.js"></script>
+    	<script src="static/script/bootstrap.min.js"></script>
+		<script src="static/script/script.js"></script>
+		<script>
+			 $(document).ready(function(){
+			 	OnGoingURMission();
+			 	StatusDisplay();
+        		setTimeout(SSErefreshInterval(),1000);
+        		
+    		});  
+		</script>
+		<script>
+		    $(function(){
+		      $("#agv_info").load("/agv_info");
+		    });
+		</script>
+
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 center">
+				<div class="card text-white bg-dark mb-3">
+				  <div class="card-header bigfont2">UR Integrated Package Collector Control Panel<img align="right" src="static/img/artclogo.png" class="img-responsive logo2 " onclick="location.href='/'"></div>
+				  <div class="card-body">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="card bg-light mb-3">
+								  <div class="card-header">Step 1: Package Content</div>
+								  <div id="Step1Body" class="card-body">
+								    <h4 class="card-title">Select items from the list below:</h4>
+								    <center><div class="row">
+								    	<div class="col-sm-12" style="margin-bottom: 10px">
+								    		<a id="1" class="item-img" onclick="PickItem(this)" data-value="Milo"><img src="static/img/Milo.jpg"></a>
+								    		<a id="2" class="item-img" onclick="PickItem(this)" data-value="Oreo"><img src="static/img/Oreo.jpg"></a>
+								    		<a id="3" class="item-img" onclick="PickItem(this)" data-value="Nespresso"><img src="static/img/Nespresso.jpg"></a>
+								    		<a id="4" class="item-img" onclick="PickItem(this)" data-value="Kitkat"><img src="static/img/Kitkat.jpg"></a>
+								    		<a id="5" class="item-img" onclick="PickItem(this)" data-value="Greentea"><img src="static/img/Greentea.jpg"></a>
+								    	</div>
+								    	<div class="col-sm-12">
+								    		<a onclick="SubmitItem()" class="btn btn-primary SubmitBtn">Submit</a>
+								    	</div>
+								    </div></center>
+								  </div>
+								</div>								
+							</div>
+							<div class="col-sm-12">
+								<div class="card bg-light mb-3">
+								  <div class="card-header">Step 2: Number of Item</div>
+								  <div id="Step2Body" class="card-body">
+								    <h4 class="card-title">Indicate how many item needed:</h4>
+								    	<div class="row">
+								    		<!-- <div class="col-md-12">
+								    			<div class="row">
+								    				<div class="col-md-2" id="Item1_img" >
+								    					<img class="img-responsive" src="static/img/1.jpg" >
+								    				</div>
+								    				<div class="col-md-10">
+								    					<h2 id="Item1_name">Milo</h2>
+								    					<p id="Item1_description">blah blah blah (insert package description here.....)</p>
+								    					<form >
+														  <fieldset>
+														  	<div class="form-group">
+														      <label>Number of item required:</label>
+														      <input class="form-control" id="Item1_amount" placeholder="1">
+														      <small class="form-text text-muted">Please input an integer.</small>
+														    </div>
+														  </fieldset>
+														</form>
+								    				</div>
+								    			</div>
+								    			
+								    		</div> -->
+								    		<div class="col-md-12" id="Item1_container">
+								    			<div class="row">
+								    				<div class="col-md-2" id="Item1_img" >
+								    					
+								    				</div>
+								    				<div class="col-md-10">
+								    					<h2 id="Item1_name"></h2>
+								    					<p id="Item1_description"></p>
+								    					<form >
+														  <fieldset>
+														  	<div class="form-group">
+														      <label>Number of item required:</label>
+														      <input class="form-control" id="Item1_amount" placeholder="1">
+														      <small class="form-text text-muted">Please input an integer.</small>
+														    </div>
+														  </fieldset>
+														</form>
+								    				</div>
+								    			</div>
+								    			
+								    		</div>
+								    		<div class="col-md-12" id="Item2_container">
+								    			<div class="row">
+								    				<div class="col-md-2" id="Item2_img" >
+								    					
+								    				</div>
+								    				<div class="col-md-10">
+								    					<h2 id="Item2_name"></h2>
+								    					<p id="Item2_description"></p>
+								    					<form >
+														  <fieldset>
+														  	<div class="form-group">
+														      <label>Number of item required:</label>
+														      <input class="form-control" id="Item2_amount" placeholder="1">
+														      <small class="form-text text-muted">Please input an integer.</small>
+														    </div>
+														  </fieldset>
+														</form>
+								    				</div>
+								    			</div>
+								    			
+								    		</div>
+								    		<div class="col-md-12" id="Item3_container">
+								    			<div class="row">
+								    				<div class="col-md-2" id="Item3_img" >
+								    					
+								    				</div>
+								    				<div class="col-md-10">
+								    					<h2 id="Item3_name"></h2>
+								    					<p id="Item3_description"></p>
+								    					<form >
+														  <fieldset>
+														  	<div class="form-group">
+														      <label>Number of item required:</label>
+														      <input class="form-control" id="Item3_amount" placeholder="1">
+														      <small class="form-text text-muted">Please input an integer.</small>
+														    </div>
+														  </fieldset>
+														</form>
+								    				</div>
+								    			</div>
+								    			
+								    		</div>
+								    		<div class="col-md-12" id="Item4_container">
+								    			<div class="row">
+								    				<div class="col-md-2" id="Item4_img" >
+								    					
+								    				</div>
+								    				<div class="col-md-10">
+								    					<h2 id="Item4_name"></h2>
+								    					<p id="Item4_description"></p>
+								    					<form >
+														  <fieldset>
+														  	<div class="form-group">
+														      <label>Number of item required:</label>
+														      <input class="form-control" id="Item4_amount" placeholder="1">
+														      <small class="form-text text-muted">Please input an integer.</small>
+														    </div>
+														  </fieldset>
+														</form>
+								    				</div>
+								    			</div>
+								    			
+								    		</div>
+								    		<div class="col-md-12" id="Item5_container">
+								    			<div class="row">
+								    				<div class="col-md-2" id="Item5_img" >
+								    					
+								    				</div>
+								    				<div class="col-md-10">
+								    					<h2 id="Item5_name"></h2>
+								    					<p id="Item5_description"></p>
+								    					<form >
+														  <fieldset>
+														  	<div class="form-group">
+														      <label>Number of item required:</label>
+														      <input class="form-control" id="Item5_amount" placeholder="1">
+														      <small class="form-text text-muted">Please input an integer.</small>
+														    </div>
+														  </fieldset>
+														</form>
+								    				</div>
+								    			</div>
+								    			
+								    		</div>
+								    		<div class="col-sm-8"><center>
+								    			<a onclick="AddtoCart()" class="btn btn-primary SubmitBtn2">Add to Cart</a>
+								    		</center></div>
+								    		<div class="col-sm-4"><center>
+								    			<a onclick="Back1()" class="btn btn-primary SubmitBtn2">Back</a>
+								    		</center></div>
+								    	</div>
+								  </div>
+								</div>
+							</div>
+							<div class="col-sm-12">
+								<div class="card bg-light mb-3">
+								  <div class="card-header">Step 3: Confirm Package</div>
+								  <div id="Step3Body" class="card-body">
+								    <h4 class="card-title">Please check if the configuration below is correct:</h4>
+								    <div class="row">
+								    	<div class="col-sm-12" style="margin-bottom: 10px" id="ComfirmPackage">
+								    		<!-- <center><div class="Step3BodyImg">
+									    		<img src="static/img/Kokokrunch.jpg">
+									    		<h1><span class="badge badge-dark Step3BodyImgCaption">Dark</span></h1>
+											</div>
+											<div class="Step3BodyImg">
+									    		<img src="static/img/Kokokrunch.jpg">
+									    		<h1><span class="badge badge-dark Step3BodyImgCaption">Dark</span></h1>
+											</div></center> -->
+								    	</div>
+									    <div class="col-sm-8"><center>
+							    			<a onclick="SendURMission()" class="btn btn-success SubmitBtn2">Send mission</a>
+							    		</center></div>
+							    		<div class="col-sm-4"><center>
+							    			<a onclick="Back2()" class="btn btn-primary SubmitBtn2">Back</a>
+							    		</center></div>
+						    		</div>
+								  </div>
+								</div>								
+							</div>
+							<div class="col-sm-12" id="mirfeedback">
+								<div class="card bg-light mb-3">
+								  <div class="card-header">MIR Feedback: <span class="float-right badge badge-success">OK</span> </div>
+									<div class="card-body p-no-margin" >
+									<p id="URMissionFBText" class="card-text"></p>
+									<!-- <div> -->
+										<div id="ComfirmPackage2" style="margin-bottom: 10px"><center>
+											<!-- <div class="Step3BodyImg">
+									    		<img src="static/img/Kokokrunch.jpg">
+									    		<h1><span class="badge badge-dark Step3BodyImgCaption">Dark</span></h1>
+											</div>
+											<div class="Step3BodyImg">
+									    		<img src="static/img/Kokokrunch.jpg">
+									    		<h1><span class="badge badge-dark Step3BodyImgCaption">Dark</span></h1>
+											</div> -->
+										</center></div>
+										<div>
+											<p class="card-text">Current Progress: </p>
+											<p id="ProgressBarText" class="card-text" ></p>
+										</div>
+										<br>
+										<div class="progress">
+										  <div id="progressbar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:10%"></div>
+										</div>
+										<br>
+										<div id="RepickBtnDiv" class="row hidden">
+											<div class="col-sm-6"><center>
+							    				<a onclick="SendURMission()" class="btn btn-success SubmitBtn2">Pick the same item(s) again</a>
+							    			</center></div>
+							    			<div class="col-sm-6"><center>
+							    				<a onclick="Back3()" class="btn btn-primary SubmitBtn2">Reset</a>
+							    			</center></div>
+							    		</div>
+
+								  <!-- </div> -->
+								</div>								
+							</div>
+						</div>
+				  </div>
+				</div>
+			</div>
+			
+		</div>
+		
+	</div><div id="agv_info"></div>
+</body>
+<script type="text/javascript">
+	function StatusDisplay(){
+		
+		var source_info_status = new EventSource("/statusSSE");
+				
+    	source_info_status.onmessage = function(event) {
+	    	var data = JSON.parse(event.data);
+	        $("#battery_percentage").html((data.battery_percentage).toFixed(2));
+	        $("#battery_time_remaining").html((data.battery_time_remaining/3600).toFixed(2));
+	        $("#position_x").html((data.position_x).toFixed(3));
+	        $("#position_y").html((data.position_y).toFixed(3));
+	        $("#velocity_linear").html((data.velocity_linear).toFixed(3));
+	        $("#velocity_angular").html((data.velocity_angular).toFixed(3));
+	        $("#distance_to_next_target").html((data.distance_to_next_target).toFixed(3));
+	        $("#state_id").html(data.state_id);
+	        $("#state_text").html(data.state_text);
+	        // $("#error_code").html(data.error.code);
+	        // $("#error_description").html(data.error.description);
+	        // $("#error_module").html(data.error.module);
+	        
+    	}
+	}
+
+	function SSErefreshInterval(){
+		interval = setInterval(SSErefresh,1000);
+	}
+
+	function SSErefresh(){
+		$.ajax({
+			method:'POST',
+			url:"/SSErefresh",
+			contentType: "application/json",
+			data: JSON.stringify({
+              "battery_percentage": 0,
+              "state_id":0
+            }),    
+			success:function(response){
+				console.log("Pinging SSE to reset");
+				if((!$("#battery_percentage").is(':empty'))){
+					clearInterval(interval);
+				}
+			}
+		});
+	}
+	
+</script>
+</html>

@@ -1,0 +1,219 @@
+<html>
+<head>
+	<title>MIR200 Control Panel</title>
+	<link rel="icon" href="static/img/astar.png">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+    <link rel="stylesheet" href="static/css/bootstrap.css">
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/animate.css">
+    <link rel="stylesheet" href="static/css/font-awesome.min.css">
+		<link rel="stylesheet" href="static/css/general.css">
+		<!-- <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"> -->
+		<script src="static/script/popper.min.js"></script>
+		<script src="static/script/jquery.min.js"></script>
+    	<script src="static/script/bootstrap.min.js"></script>
+		<script src="static/script/script.js"></script>
+		<script>
+			 $(document).ready(function(){
+        		$('[data-toggle="tooltip"]').tooltip(); 
+        		StatusDisplay();
+        		MissionQDisplay();
+						setTimeout(SSErefreshInterval(),1000);
+						setTimeout(SSEDoubleCheck(),2000);
+        		PrintMissionName();
+        		CheckInit();
+    		});  
+		</script>
+		<script>
+		    $(function(){
+		      $("#agv_info").load("/agv_info");
+		    });
+		</script>
+
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="modal fade" id="MissionQueueModal" role="dialog">
+			    <div class="modal-dialog modal-lg">
+			      <div class="modal-content">
+			        <div class="modal-header">
+			          <h4 class="modal-title">Mission(s) in Queue</h4>
+			          <button type="button" class="close" data-dismiss="modal">&times;</button>
+			        </div>
+			        <div class="modal-body">
+			        	<table class="table table-hover">
+						  <thead>
+						    <tr class="table-light">
+						      <th scope="col" width="90%"><center>Mission(s) in Queue</center></th>
+						      <th scope="col" width="10%"></th>
+						    </tr>
+						  </thead>
+						  <tbody id="tablebody">
+						    <tr class="table-light">
+						    	<th scope="row">Go to Station 1</th>
+						    	<td><span id="Go to Station 1" class="badge badge-danger" onclick="DeleteMission('6f4817a2-bb21-11e8-b0e8-94c6911b3ddd')">Delete</span></td>
+						    </tr>
+						    <tr class="table-light">
+						    	<th scope="row">Make Sound</th>
+						    	<td><span id="Make Sound" class="badge badge-danger" onclick="DeleteMission('6f4817a2-bb21-11e8-b0e8-94c6911b3ddd')">Delete</span></td>
+						    </tr>
+						  </tbody>
+						</table>
+			        </div>
+			      </div>
+			    </div>
+			 </div>
+			<div class="col-sm-12 center">
+				<div class="card text-white bg-dark mb-3">
+				  <div class="card-header bigfont">MIR200 Control Panel<img align="right" src="static/img/artclogo.png" class="img-responsive logo " href="/"></div>
+
+				  <div class="card-body">
+						<div class="row">
+							<div class="col-sm-6">
+								<div id="SubmitMissionForm">
+									<fieldset>
+										<div class="form-group">
+									      <label for="exampleSelect1">Select Mission</label>
+									      <select class="form-control" id="SelectMission">
+									        
+									      </select>
+									    </div>
+										<button onclick="SubmitMission()" class="btn btn-secondary btn-lg">Send to Queue</button>
+									</fieldset>
+								</div>
+							</div>
+							<div class="col-sm-6 ">
+								<div class="MissionCountDisplay" data-toggle="modal" data-target="#MissionQueueModal">
+									<h1>Mission in Queue <span id="MissionCount" class="badge badge-secondary">2</span></h1>
+								</div> 
+								<small class="form-text">Click to see more details.</small>
+								
+							</div>
+						</div>
+						<br>
+						<div class="row">
+							<div class="col-sm-12">
+									<center><button id="PauseBtn" class="big-padding btn btn-warning btn-lg hidden" data-toggle="tooltip" data-placement="right" data-original-title="Pausing MIR without clearing the mission queue" onclick="SendPause()">Pause Mission</button></center>
+									<center><button id="StartBtn" class=" big-padding btn btn-info btn-lg" data-toggle="tooltip" data-placement="right" data-original-title="Unpause MIR and continue to run the mission loop" onclick="SendReady()">Start / Continue Mission</button></center>
+							</div>
+						</div>
+						<br>
+						<div class="card mb-3 hidden" id="feedback-success">
+								<div class="card-header">MIR Feedback: <span class="float-right badge badge-success">OK</span> </div>
+								<div class="card-body" >
+									<p class="card-text"></p>
+								</div>
+						</div>
+						<div class="card mb-3 hidden" id="feedback-danger">
+								<div class="card-header">MIR Feedback: <span class="float-right badge badge-danger">Attention</span></div>
+								<div class="card-body" >
+									<p class="card-text"></p>
+								</div>
+						</div>
+						<div class="card mb-3 hidden" id="feedback-info">
+								<div class="card-header">MIR Feedback: <span class="float-right badge badge-info">Attention</span></div>
+								<div class="card-body">
+									<p class="card-text"></p>
+								</div>
+						</div>
+
+				  </div>
+				</div>
+				<div class="card text-white bg-dark mb-3">
+				  <div class="card-header bigfont">Additional Functions</div>
+
+				  <div class="card-body">
+						<div class="row">
+							<div class="col-sm-4">
+								<center><button class="big-padding btn btn-lg" data-toggle="tooltip" data-placement="right" data-original-title="One of MiR and UR integrated features, an automated package collector" onclick="location.href='/ur_controller';">UR Implimented Package Collector</button></center>
+							</div>
+							<div class="col-sm-4">
+								<center><button class="big-padding btn btn-lg disabled">Coming Soon</button></center>
+							</div>
+							<div class="col-sm-4">
+								<center><button class="big-padding btn btn-lg disabled" >Coming Soon</button></center>
+							</div>
+						</div>
+				  </div>
+				</div>
+			</div>
+			
+		</div>
+		<div id="agv_info"></div>
+	</div>
+</body>
+<script type="text/javascript">
+	function StatusDisplay(){
+		
+		var source_info_status = new EventSource("/statusSSE");
+				
+    	source_info_status.onmessage = function(event) {
+	    	var data = JSON.parse(event.data);
+	        $("#battery_percentage").html((data.battery_percentage).toFixed(2));
+	        $("#battery_time_remaining").html((data.battery_time_remaining/3600).toFixed(2));
+	        $("#position_x").html((data.position_x).toFixed(3));
+	        $("#position_y").html((data.position_y).toFixed(3));
+	        $("#velocity_linear").html((data.velocity_linear).toFixed(3));
+	        $("#velocity_angular").html((data.velocity_angular).toFixed(3));
+	        $("#distance_to_next_target").html((data.distance_to_next_target).toFixed(3));
+	        $("#state_id").html(data.state_id);
+	        $("#state_text").html(data.state_text);	        
+    	}
+	}
+
+	function MissionQDisplay(){
+		
+		var source_info_missionQ = new EventSource("/MissionQSSE");
+		var printed = false;
+				
+    	source_info_missionQ.onmessage = function(event) {
+	        console.log(event.data);
+	        var DataArr = event.data.split(',', 2);
+	        $("#tablebody").html(DataArr[1]);
+					$("#MissionCount").html(DataArr[0]);
+					if((!$("#battery_percentage").is(':empty')) && (!$("#MissionCount").is(':empty'))){
+					clearInterval(interval);	
+				}
+    	}
+	}
+
+	function SSEDoubleCheck(){ 	//to fix a bug where 2 or more devices connected, after the data is published to 1 device, others will not be updated
+		window.setInterval(function(){
+			// console.log("Double checking data every 10sec");
+			$.ajax({
+				method:'GET',
+				url:"/SSEDoubleCheck",
+				contentType: "application/json",
+				success:function(response){
+					// console.log(response);
+					if(($("#MissionCount").html() != response.mission_queue_count) || ($("#battery_percentage").html() != response.battery_percentage))
+						SSErefresh();
+				}
+			});
+		}, 10000);
+	}
+
+	function SSErefreshInterval(){
+		interval = setInterval(SSErefresh,1000);
+	}
+
+	function SSErefresh(){
+		$.ajax({
+			method:'POST',
+			url:"/SSErefresh",
+			contentType: "application/json",
+			data: JSON.stringify({
+              "battery_percentage": 0
+            }),    
+			success:function(response){
+				console.log("Pinging SSE to reset");
+				
+			}
+		});
+	}
+	
+</script>
+</html>
