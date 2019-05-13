@@ -5,7 +5,7 @@ import threading
 import logging
 
 app = Flask(__name__)
-debug_mode = True 					#SET THIS TO TRUE FOR DEBUG MODE
+debug_mode = False 					#SET THIS TO TRUE FOR DEBUG MODE
 status = {}
 mission = {}
 mission_queue = {}
@@ -20,9 +20,9 @@ else:
 	MirAddr = "http://192.168.12.214/api/v2.0.0"		#API address of AGV, should be: http://mir.com/api/v2.0.0 or http://192.168.12.214/api/v2.0.0
 	headers = {'accept':'application/json', 'authorization': 'Basic YWRtaW46OGM2OTc2ZTViNTQxMDQxNWJkZTkwOGJkNGRlZTE1ZGZiMTY3YTljODczZmM0YmI4YTgxZjZmMmFiNDQ4YTkxOA==', 'Accept-Languege':'en_US','Content-Type': 'application/json'}
 
-MirMissionQAddr = MirAddr + "/mission_queue"
-MirMissionAddr = MirAddr + "/missions"
-MIRStatusAddr = MirAddr + "/status"
+MirMissionQAddr = MirAddr + "/mission_queue/"
+MirMissionAddr = MirAddr + "/missions/"
+MIRStatusAddr = MirAddr + "/status/"
 
 r = requests.get(MirMissionAddr, data = {'key':'value'}, headers=headers)		#Obtain the existing mission list in MIR
 mission = json.loads(r.content)

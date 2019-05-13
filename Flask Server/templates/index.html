@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="static/css/animate.css">
     <link rel="stylesheet" href="static/css/font-awesome.min.css">
 		<link rel="stylesheet" href="static/css/general.css">
-		<!-- <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"> -->
 		<script src="static/script/popper.min.js"></script>
 		<script src="static/script/jquery.min.js"></script>
     	<script src="static/script/bootstrap.min.js"></script>
@@ -52,14 +51,7 @@
 						    </tr>
 						  </thead>
 						  <tbody id="tablebody">
-						    <tr class="table-light">
-						    	<th scope="row">Go to Station 1</th>
-						    	<td><span id="Go to Station 1" class="badge badge-danger" onclick="DeleteMission('6f4817a2-bb21-11e8-b0e8-94c6911b3ddd')">Delete</span></td>
-						    </tr>
-						    <tr class="table-light">
-						    	<th scope="row">Make Sound</th>
-						    	<td><span id="Make Sound" class="badge badge-danger" onclick="DeleteMission('6f4817a2-bb21-11e8-b0e8-94c6911b3ddd')">Delete</span></td>
-						    </tr>
+						    <!--Mission in queue will be filled here by Javascript-->
 						  </tbody>
 						</table>
 			        </div>
@@ -87,7 +79,7 @@
 							</div>
 							<div class="col-sm-6 ">
 								<div class="MissionCountDisplay" data-toggle="modal" data-target="#MissionQueueModal">
-									<h1>Mission in Queue <span id="MissionCount" class="badge badge-secondary">2</span></h1>
+									<h1>Mission in Queue <span id="MissionCount" class="badge badge-secondary"></span></h1>
 								</div> 
 								<small class="form-text">Click to see more details.</small>
 								
@@ -131,10 +123,10 @@
 								<center><button class="big-padding btn btn-lg" data-toggle="tooltip" data-placement="right" data-original-title="One of MiR and UR integrated features, an automated package collector" onclick="location.href='/ur_controller';">UR Implimented Package Collector</button></center>
 							</div>
 							<div class="col-sm-4">
-								<center><button class="big-padding btn btn-lg disabled">Coming Soon</button></center>
+								<center><button class="big-padding btn btn-lg disabled">Coming Soon</button></center> 	<!--edit this in future to add more UR integrated function-->
 							</div>
 							<div class="col-sm-4">
-								<center><button class="big-padding btn btn-lg disabled" >Coming Soon</button></center>
+								<center><button class="big-padding btn btn-lg disabled" >Coming Soon</button></center>	<!--edit this in future to add more UR integrated function-->
 							</div>
 						</div>
 				  </div>
@@ -147,7 +139,7 @@
 </body>
 <script type="text/javascript">
 	function StatusDisplay(){
-		
+		//Server Sent Event for displaying MiR status
 		var source_info_status = new EventSource("/statusSSE");
 				
     	source_info_status.onmessage = function(event) {
@@ -165,7 +157,7 @@
 	}
 
 	function MissionQDisplay(){
-		
+		//Server Sent Event for displaying mission queue
 		var source_info_missionQ = new EventSource("/MissionQSSE");
 		var printed = false;
 				
@@ -175,7 +167,7 @@
 	        $("#tablebody").html(DataArr[1]);
 					$("#MissionCount").html(DataArr[0]);
 					if((!$("#battery_percentage").is(':empty')) && (!$("#MissionCount").is(':empty'))){
-					clearInterval(interval);	
+					clearInterval(interval);	//stop SSErefresh() when battery_percentage and MissionCount field is filled
 				}
     	}
 	}
@@ -200,6 +192,7 @@
 		interval = setInterval(SSErefresh,1000);
 	}
 
+	//sending dummy data to flask to manually trigger the SSE referesh process
 	function SSErefresh(){
 		$.ajax({
 			method:'POST',
