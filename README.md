@@ -14,4 +14,5 @@ How to use:
 Package needed:
 1. ROS
 2. realsense-ros (to start D435 camera node and start publishing data to /camera/depth_registered/points), available here: https://github.com/IntelRealSense/realsense-ros
-3. pcl_ros (to downsample the camera feed and truncate data 2 meters away), available here: 
+3. perception_pcl (to downsample the camera feed and truncate data 2 meters away), available here: https://github.com/ros-perception/perception_pcl
+4. PCL Library (to abstract the Z-distance of point cloud and analyse the data), follow instruction here: https://gist.github.com/IgniparousTempest/ce5fadbe742526d10d6bdbf15c3a3fe7
